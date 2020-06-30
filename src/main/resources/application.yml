@@ -7,3 +7,10 @@ spring:
 
 server:
   port: 8081
+
+mybatis:
+  typeAliasesPackagecom: org.javaboy.vhr.*
+  mapperLocations: classpath:org.javaboy.vhr/mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.log4j.Log4jImpl

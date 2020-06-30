@@ -2,11 +2,14 @@ package org.javaboy.vhr.service;
 
 import org.javaboy.vhr.mapper.HrMapper;
 import org.javaboy.vhr.model.Hr;
+import org.javaboy.vhr.utils.HrUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @Author lixiang
@@ -28,5 +31,9 @@ public class HrService implements UserDetailsService{
         }
         hr.setRoles(hrMapper.getHrRolesById(hr.getId()));
         return hr;
+    }
+
+    public List<Hr> getAllHrs() {
+        return hrMapper.getAllHrs(HrUtils.getCurrentHr().getId());
     }
 }
