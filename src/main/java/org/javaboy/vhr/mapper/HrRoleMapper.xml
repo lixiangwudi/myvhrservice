@@ -19,7 +19,10 @@
     delete from hr_role
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="org.javaboy.vhr.model.HrRole" >
+    <delete id="deleteRolesByHrid">
+      delete from hr_role where hrid = #{hrid}
+    </delete>
+    <insert id="insert" parameterType="org.javaboy.vhr.model.HrRole" >
     insert into hr_role (id, hrid, rid
       )
     values (#{id,jdbcType=INTEGER}, #{hrid,jdbcType=INTEGER}, #{rid,jdbcType=INTEGER}
@@ -49,6 +52,13 @@
         #{rid,jdbcType=INTEGER},
       </if>
     </trim>
+  </insert>
+
+  <insert id="addRolesByRids">
+    insert into  hr_role (hrid,rid) values 
+    <foreach collection="rids" separator="," item="item">
+      (#{hrid},#{item})
+    </foreach>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="org.javaboy.vhr.model.HrRole" >
     update hr_role

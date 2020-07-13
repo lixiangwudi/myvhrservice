@@ -6,7 +6,7 @@ spring:
     url: jdbc:mysql://localhost:3306/vhr?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
 
 server:
-  port: 8081
+  port: 9999
 
 mybatis:
   typeAliasesPackagecom: org.javaboy.vhr.*

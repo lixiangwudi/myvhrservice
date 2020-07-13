@@ -15,6 +15,7 @@
   </resultMap>
   <resultMap id="HrWithRoles" type="org.javaboy.vhr.model.Hr" extends="BaseResultMap">
     <collection property="roles" ofType="org.javaboy.vhr.model.Role">
+      <result column="rid" property="id" jdbcType="INTEGER"/>
       <result column="rname" property="name" jdbcType="VARCHAR" />
       <result column="rnameZh" property="nameZh" jdbcType="VARCHAR" />
     </collection>
@@ -32,8 +33,11 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="getAllHrs" resultMap="HrWithRoles">
-    select hr.*,role.name as rname,role.nameZh as rnameZh from hr LEFT JOIN hr_role hrr on hr.id = hrr.hrid left join role on hrr.rid = role.id
-    and hr.id &lt;&gt; ${hrid}
+    select hr.*,role.id as rid,role.name as rname,role.nameZh as rnameZh from hr LEFT JOIN hr_role hrr on hr.id = hrr.hrid left join role on hrr.rid = role.id
+    where hr.id &lt;&gt; ${hrid}
+    <if test="keywords !=null and keywords != ''">
+      and hr.name like concat('%',#{keywords},'%')
+    </if>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from hr
@@ -41,6 +45,9 @@
   </delete>
   <select id="getHrRolesById" resultType="org.javaboy.vhr.model.Role">
     select r.* from role r,hr_role hrr where hrr.`rid`=r.`id` and hrr.`hrid`=#{id}
+  </select>
+  <select id="getAllRoles" resultType="org.javaboy.vhr.model.Role">
+    select * from role
   </select>
   <insert id="insert" parameterType="org.javaboy.vhr.model.Hr" >
     insert into hr (id, name, phone, 
