@@ -1,5 +1,6 @@
 package org.javaboy.vhr.service;
 
+import org.javaboy.vhr.mapper.EmployeeMapper;
 import org.javaboy.vhr.mapper.EmployeeecMapper;
 import org.javaboy.vhr.mapper.RespbeanPage;
 import org.javaboy.vhr.model.Employee;
@@ -16,17 +17,23 @@ import java.util.List;
 @Service
 public class EmployeeService {
 
+
     @Autowired
-    EmployeeecMapper employeeecMapper;
-    public RespbeanPage getEmployeeByPage(Integer page, Integer size) {
+    EmployeeMapper employeeMapper;
+
+    public RespbeanPage getEmployeeByPage(Integer page, Integer size,String word) {
         if(page != null && size != null){
             page = (page -1) * size;
         }
-        List<Employee> data = employeeecMapper.getEmployeeByPage(page, size);
-        Long total = employeeecMapper.getTotal();
+        List<Employee> data = employeeMapper.getEmployeeByPage(page, size, word);
+        Long total = employeeMapper.getTotal(word);
         RespbeanPage bean = new RespbeanPage();
         bean.setData(data);
         bean.setTotal(total);
         return bean;
+    }
+
+    public Integer addEmp(Employee employee) {
+        return employeeMapper.insertSelective(employee);
     }
 }

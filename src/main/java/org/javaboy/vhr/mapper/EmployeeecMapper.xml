@@ -56,18 +56,7 @@
   <sql id="Base_Column_List" >
     id, eid, ecDate, ecReason, ecPoint, ecType, remark
   </sql>
-  <select id="getEmployeeByPage" resultMap="AllEmployeeInfo">
-    select e.*,p.`id` as pid,p.`name` as pname,n.`id` as nid,n.`name` as nname,d.`id` as did,d.`name` as
-    dname,j.`id` as jid,j.`name` as jname,pos.`id` as posid,pos.`name` as posname from employee e,nation
-    n,politicsstatus p,department d,joblevel j,position pos where e.`nationId`=n.`id` and e.`politicId`=p.`id` and
-    e.`departmentId`=d.`id` and e.`jobLevelId`=j.`id` and e.`posId`=pos.`id`
-    <if test="page !=null and size!=null">
-      limit #{page},#{size}
-    </if>
-  </select>
-  <select id="getTotal" resultType="java.lang.Long">
-    select count(*) from employee e
-  </select>
+
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />

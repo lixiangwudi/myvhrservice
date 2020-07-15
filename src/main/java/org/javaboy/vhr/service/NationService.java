@@ -1,0 +1,23 @@
+package org.javaboy.vhr.service;
+
+import org.javaboy.vhr.mapper.NationMapper;
+import org.javaboy.vhr.model.Nation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+/**
+ * @Author lixiang
+ * @Date 2020/7/15 21:27
+ * @Version 1.0
+ */
+@Service
+public class NationService {
+
+    @Autowired
+    NationMapper nationMapper;
+    public List<Nation> getAllNations() {
+        return nationMapper.getAllNations();
+    }
+}

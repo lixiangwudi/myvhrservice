@@ -1,5 +1,6 @@
 package org.javaboy.vhr.mapper;
 
+import org.apache.ibatis.annotations.Param;
 import org.javaboy.vhr.model.Employee;
 import org.javaboy.vhr.model.Employeeec;
 
@@ -18,7 +19,5 @@ public interface EmployeeecMapper {
 
     int updateByPrimaryKey(Employeeec record);
 
-    List<Employee> getEmployeeByPage(Integer page, Integer size);
 
-    Long getTotal();
 }

@@ -91,6 +91,25 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
 
+  <select id="getEmployeeByPage" resultMap="AllEmployeeInfo">
+    select e.*,p.`id` as pid,p.`name` as pname,n.`id` as nid,n.`name` as nname,d.`id` as did,d.`name` as
+    dname,j.`id` as jid,j.`name` as jname,pos.`id` as posid,pos.`name` as posname from employee e,nation
+    n,politicsstatus p,department d,joblevel j,position pos where e.`nationId`=n.`id` and e.`politicId`=p.`id` and
+    e.`departmentId`=d.`id` and e.`jobLevelId`=j.`id` and e.`posId`=pos.`id`
+    <if test="word!=null and word!=''">
+      and e.name like concat('%',#{word},'%')
+    </if>
+    <if test="page !=null and size!=null">
+      limit #{page},#{size}
+    </if>
+  </select>
+  <select id="getTotal" resultType="java.lang.Long">
+    select count(*) from employee
+    <if test="word!=null and word!=''">
+      where name like concat('',#{word},'')
+    </if>
+  </select>
+
   <insert id="insert" parameterType="org.javaboy.vhr.model.Employee">
     insert into employee (id, name, gender,
       birthday, idCard, wedlock, nationId,
