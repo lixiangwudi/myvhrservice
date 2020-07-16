@@ -36,7 +36,7 @@ public class EmpBasicController {
         return employeeService.getEmployeeByPage(page, size, keyword);
     }
 
-    @PutMapping("/")
+    @PostMapping("/")
     public RespBean addEmp(@RequestBody Employee employee){
         if(employeeService.addEmp(employee) == 1){
             return RespBean.ok("添加成功");
@@ -63,6 +63,13 @@ public class EmpBasicController {
     @GetMapping("/positions")
     public List<Position> getAllPositions() {
         return positionService.getAllPositions();
+    }
+
+
+    @GetMapping("/maxWorkId")
+    public RespBean getMaxWordId(){
+        RespBean build = RespBean.build().setStatus(200).setObj(String.format("%08d",employeeService.getMaxWorkId()+1));
+        return build;
     }
 
 

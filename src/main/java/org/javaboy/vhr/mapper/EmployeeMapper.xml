@@ -109,8 +109,11 @@
       where name like concat('',#{word},'')
     </if>
   </select>
+    <select id="getMaxWorkId" resultType="java.lang.Integer">
+      select max(workId) from vhr.employee
+    </select>
 
-  <insert id="insert" parameterType="org.javaboy.vhr.model.Employee">
+    <insert id="insert" parameterType="org.javaboy.vhr.model.Employee">
     insert into employee (id, name, gender,
       birthday, idCard, wedlock, nationId,
       nativePlace, politicId, email,
