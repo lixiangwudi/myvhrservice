@@ -24,4 +24,6 @@ public interface EmployeeMapper {
     Long getTotal(String word);
 
     Integer getMaxWorkId();
+
+    Integer deleteEmployeeByIds(@Param("ids") Integer[] ids);
 }

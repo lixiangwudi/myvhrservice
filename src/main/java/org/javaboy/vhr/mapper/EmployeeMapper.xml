@@ -91,6 +91,13 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
 
+  <delete id="deleteEmployeeByIds">
+    delete  from employee where id in
+    <foreach collection="ids" open="(" close=")" item="item" separator=",">
+      #{item}
+    </foreach>
+  </delete>
+
   <select id="getEmployeeByPage" resultMap="AllEmployeeInfo">
     select e.*,p.`id` as pid,p.`name` as pname,n.`id` as nid,n.`name` as nname,d.`id` as did,d.`name` as
     dname,j.`id` as jid,j.`name` as jname,pos.`id` as posid,pos.`name` as posname from employee e,nation

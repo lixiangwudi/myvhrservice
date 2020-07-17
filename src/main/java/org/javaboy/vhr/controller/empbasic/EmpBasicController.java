@@ -45,6 +45,17 @@ public class EmpBasicController {
         }
     }
 
+    @PutMapping("/")
+    public RespBean editEmp(@RequestBody Employee employee){
+        if(employeeService.editEmp(employee) == 1){
+            return RespBean.ok("添加成功");
+        }else{
+            return RespBean.error("添加失败");
+        }
+    }
+
+
+
     @GetMapping("/nations")
     public List<Nation> getAllNations() {
         return nationService.getAllNations();
@@ -72,5 +83,15 @@ public class EmpBasicController {
         return build;
     }
 
+
+    @DeleteMapping("/{id}")
+    public RespBean deleteEmployeeById(@PathVariable Integer id){
+        return employeeService.deleteEmployeeById(id) == 1?RespBean.ok("删除成功"):RespBean.error("删除失败");
+    }
+
+    @DeleteMapping("/")
+    public RespBean deleteEmployeeByIds(Integer[] ids){
+        return employeeService.deleteEmployeeByIds(ids) == ids.length?RespBean.ok("删除成功"):RespBean.error("删除失败");
+    }
 
 }
