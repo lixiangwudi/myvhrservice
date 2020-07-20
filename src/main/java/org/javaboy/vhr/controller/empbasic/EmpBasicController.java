@@ -1,11 +1,18 @@
 package org.javaboy.vhr.controller.empbasic;
 
+import com.sun.javafx.binding.StringFormatter;
 import org.javaboy.vhr.mapper.RespbeanPage;
 import org.javaboy.vhr.model.*;
 import org.javaboy.vhr.service.*;
+import org.javaboy.vhr.utils.PoiUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.remoting.soap.SoapFaultException;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -30,6 +37,13 @@ public class EmpBasicController {
     @Autowired
     PositionService positionService;
 
+    SimpleDateFormat year = new SimpleDateFormat("yyyy");
+
+    SimpleDateFormat month = new SimpleDateFormat("MM");
+
+
+
+
 
     @GetMapping("/")
     public RespbeanPage getEmployeeByPage(@RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10") Integer size,String keyword) {
@@ -38,6 +52,11 @@ public class EmpBasicController {
 
     @PostMapping("/")
     public RespBean addEmp(@RequestBody Employee employee){
+        Date beginContract = employee.getBeginContract();
+        Date endContract = employee.getEndContract();
+        double ye = Double.parseDouble(year.format(endContract)) - Double.parseDouble(year.format(beginContract))  ;
+        double mon = (Double.parseDouble(month.format(endContract)) - Double.parseDouble(month.format(beginContract)));
+        employee.setContractTerm(Double.parseDouble(String.format("%.2f",ye*12+mon)));
         if(employeeService.addEmp(employee) == 1){
             return RespBean.ok("添加成功");
         }else{
@@ -92,6 +111,12 @@ public class EmpBasicController {
     @DeleteMapping("/")
     public RespBean deleteEmployeeByIds(Integer[] ids){
         return employeeService.deleteEmployeeByIds(ids) == ids.length?RespBean.ok("删除成功"):RespBean.error("删除失败");
+    }
+
+    @GetMapping("/export")
+    public ResponseEntity<byte[]> exportData(){
+        List<Employee> employeeByPage = (List<Employee>) employeeService.getEmployeeByPage(null, null, null).getData();
+        return PoiUtils.export2Excel(employeeByPage);
     }
 
 }
